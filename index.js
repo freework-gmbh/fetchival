@@ -5,10 +5,20 @@
   }
 
   function getQuery (queryParams) {
-    var arr = Object.keys(queryParams).map(function (k) {
-      return k + '=' + encodeURIComponent(queryParams[k])
-    })
-    return '?' + arr.join('&')
+    return '?' + serialize(queryParams);
+  }
+
+  function serialize(obj, prefix) {
+    var str = [], p;
+    for(p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        var k = prefix ? prefix + "[" + p + "]" : p, v = obj[p];
+        str.push((v !== null && typeof v === "object") ?
+          serialize(v, k) :
+          encodeURIComponent(k) + "=" + encodeURIComponent(v));
+      }
+    }
+    return str.join("&");
   }
 
   function _fetch (method, url, opts, data, queryParams) {
