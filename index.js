@@ -14,7 +14,7 @@
       if (obj.hasOwnProperty(p)) {
         if (Array.isArray(obj[p])) {
           var values = obj[p];
-          values.forEach(v => {
+          values.forEach(function(v) {
             str.push(encodeURIComponent(p) + "[]=" + encodeURIComponent(v));
           });
         } else {
